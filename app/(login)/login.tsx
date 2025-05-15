@@ -33,7 +33,6 @@ export function Login({ mode = 'signin' }: { mode?: 'signin' | 'signup' }) {
             : 'Create your account'}
         </h2>
       </div>
-
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <form className="space-y-6" action={formAction}>
           <input type="hidden" name="redirect" value={redirect || ''} />
@@ -130,7 +129,7 @@ export function Login({ mode = 'signin' }: { mode?: 'signin' | 'signup' }) {
                 redirect ? `?redirect=${redirect}` : ''
               }${priceId ? `&priceId=${priceId}` : ''}`}
               className="w-full flex justify-center py-2 px-4 border border-gray-300 rounded-full shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
-            >
+              legacyBehavior>
               {mode === 'signin'
                 ? 'Create an account'
                 : 'Sign in to existing account'}

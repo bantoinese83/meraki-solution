@@ -43,7 +43,6 @@ export default function DashboardLayout({
           <span className="sr-only">Toggle sidebar</span>
         </Button>
       </div>
-
       <div className="flex flex-1 overflow-hidden h-full">
         {/* Sidebar */}
         <aside
@@ -55,7 +54,7 @@ export default function DashboardLayout({
         >
           <nav className="h-full overflow-y-auto p-4">
             {navItems.map((item) => (
-              <Link key={item.href} href={item.href} passHref>
+              <Link key={item.href} href={item.href} passHref legacyBehavior>
                 <Button
                   variant={pathname === item.href ? 'secondary' : 'ghost'}
                   className={`shadow-none my-1 w-full justify-start ${

@@ -61,7 +61,7 @@ function UserMenu() {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="flex flex-col gap-1">
         <DropdownMenuItem className="cursor-pointer">
-          <Link href="/dashboard" className="flex w-full items-center">
+          <Link href="/dashboard" className="flex w-full items-center" legacyBehavior>
             <Home className="mr-2 h-4 w-4" />
             <span>Dashboard</span>
           </Link>
@@ -122,8 +122,10 @@ function Header() {
     <header className="w-full bg-gradient-to-r from-orange-500 via-orange-400 to-orange-300 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
         <Link href="/" className="flex items-center">
-          <CircleIcon className="h-7 w-7 text-white" />
-          <span className="ml-2 text-2xl font-extrabold text-white tracking-tight">Meraki Solution</span>
+          <span className="flex items-center">
+            <CircleIcon className="h-7 w-7 text-white" />
+            <span className="ml-2 text-2xl font-extrabold text-white tracking-tight">Meraki Solution</span>
+          </span>
         </Link>
         <div className="flex items-center space-x-4">
           <Suspense fallback={<div className="h-9" />}>
