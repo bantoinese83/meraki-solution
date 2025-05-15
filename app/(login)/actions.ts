@@ -20,11 +20,12 @@ import { comparePasswords, hashPassword, setSession } from '@/lib/auth/session';
 import { redirect } from 'next/navigation';
 import { cookies } from 'next/headers';
 import { createCheckoutSession } from '@/lib/payments/stripe';
-import { getUser, getUserWithTeam } from '@/lib/db/queries';
+import { getUser, getUserWithTeam, getTeamForUser } from '@/lib/db/queries';
 import {
   validatedAction,
   validatedActionWithUser
 } from '@/lib/auth/middleware';
+import { sendEmail } from '@/lib/email/sendEmail';
 
 async function logActivity(
   teamId: number | null | undefined,
@@ -94,10 +95,12 @@ export const signIn = validatedAction(signInSchema, async (data, formData) => {
   const redirectTo = formData.get('redirect') as string | null;
   if (redirectTo === 'checkout') {
     const priceId = formData.get('priceId') as string;
-    return createCheckoutSession({ team: foundTeam, priceId });
+    await createCheckoutSession({ team: foundTeam, priceId });
+    return {};
   }
 
   redirect('/dashboard');
+  return {};
 });
 
 const signUpSchema = z.object({
@@ -215,10 +218,12 @@ export const signUp = validatedAction(signUpSchema, async (data, formData) => {
   const redirectTo = formData.get('redirect') as string | null;
   if (redirectTo === 'checkout') {
     const priceId = formData.get('priceId') as string;
-    return createCheckoutSession({ team: createdTeam, priceId });
+    await createCheckoutSession({ team: createdTeam, priceId });
+    return {};
   }
 
   redirect('/dashboard');
+  return {};
 });
 
 export async function signOut() {
@@ -436,14 +441,14 @@ export const inviteTeamMember = validatedActionWithUser(
       return { error: 'An invitation has already been sent to this email' };
     }
 
-    // Create a new invitation
-    await db.insert(invitations).values({
+    // Create a new invitation and get the inserted ID
+    const [invitation] = await db.insert(invitations).values({
       teamId: userWithTeam.teamId,
       email,
       role,
       invitedBy: user.id,
       status: 'pending'
-    });
+    }).returning();
 
     await logActivity(
       userWithTeam.teamId,
@@ -451,8 +456,35 @@ export const inviteTeamMember = validatedActionWithUser(
       ActivityType.INVITE_TEAM_MEMBER
     );
 
-    // TODO: Send invitation email and include ?inviteId={id} to sign-up URL
-    // await sendInvitationEmail(email, userWithTeam.team.name, role)
+    // Send invitation email
+    let teamName = 'your team';
+    if (userWithTeam.teamId) {
+      const team = await getTeamForUser();
+      if (team && team.name) {
+        teamName = team.name;
+      }
+    }
+    const inviteLink = `${process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'}/sign-up?inviteId=${invitation.id}`;
+    const subject = `You're invited to join ${teamName} on Meraki Solution`;
+    const html = `
+      <h2>You've been invited to join <b>${teamName}</b> on Meraki Solution</h2>
+      <p>${user.name || user.email} has invited you to join their team as a <b>${role}</b>.</p>
+      <p>Click the button below to accept your invitation and create your account:</p>
+      <p><a href="${inviteLink}" style="background: #f97316; color: white; padding: 10px 20px; border-radius: 6px; text-decoration: none;">Accept Invitation</a></p>
+      <p>If the button doesn't work, copy and paste this link into your browser:</p>
+      <p><a href="${inviteLink}">${inviteLink}</a></p>
+      <hr />
+      <p>This invitation was intended for ${email}. If you did not expect this, you can ignore this email.</p>
+    `;
+    const text = `You've been invited to join ${teamName} on Meraki Solution. ${user.name || user.email} has invited you as a ${role}.
+Accept your invitation: ${inviteLink}
+If you did not expect this, you can ignore this email.`;
+    await sendEmail({
+      to: email,
+      subject,
+      html,
+      text,
+    });
 
     return { success: 'Invitation sent successfully' };
   }

@@ -1,128 +1,258 @@
+import React from 'react';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, CreditCard, Database } from 'lucide-react';
-import { Terminal } from './terminal';
+import { ArrowRight, CreditCard, Database, Star, Users, Shield, Activity } from 'lucide-react';
+// import FeaturesBentoGrid from './hero-bento';
+
+const testimonials = [
+  {
+    name: 'Alex P.',
+    company: 'Freelance Designer',
+    quote: '“Meraki Solution made invoicing effortless and helped me get paid faster!”',
+    avatar: <Users className="h-8 w-8 text-orange-400" />,
+  },
+  {
+    name: 'Taylor S.',
+    company: 'Small Business Owner',
+    quote: '“The dashboard is beautiful and the payment tracking is a game changer.”',
+    avatar: <Users className="h-8 w-8 text-orange-400" />,
+  },
+];
 
 export default function HomePage() {
   return (
     <main>
-      <section className="py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="lg:grid lg:grid-cols-12 lg:gap-8">
-            <div className="sm:text-center md:max-w-2xl md:mx-auto lg:col-span-6 lg:text-left">
-              <h1 className="text-4xl font-bold text-gray-900 tracking-tight sm:text-5xl md:text-6xl">
-                Build Your SaaS
-                <span className="block text-orange-500">Faster Than Ever</span>
-              </h1>
-              <p className="mt-3 text-base text-gray-500 sm:mt-5 sm:text-xl lg:text-lg xl:text-xl">
-                Launch your SaaS product in record time with our powerful,
-                ready-to-use template. Packed with modern technologies and
-                essential integrations.
-              </p>
-              <div className="mt-8 sm:max-w-lg sm:mx-auto sm:text-center lg:text-left lg:mx-0">
-                <a
-                  href="https://vercel.com/templates/next.js/next-js-saas-starter"
-                  target="_blank"
-                >
-                  <Button
-                    size="lg"
-                    variant="outline"
-                    className="text-lg rounded-full"
-                  >
-                    Deploy your own
-                    <ArrowRight className="ml-2 h-5 w-5" />
-                  </Button>
-                </a>
-              </div>
-            </div>
-            <div className="mt-12 relative sm:max-w-lg sm:mx-auto lg:mt-0 lg:max-w-none lg:mx-0 lg:col-span-6 lg:flex lg:items-center">
-              <Terminal />
-            </div>
+      {/* Hero + Image Section */}
+      <section className="flex flex-col lg:flex-row items-center justify-center min-h-[80vh] max-w-7xl mx-auto px-4 py-20 gap-12 relative overflow-hidden">
+        {/* Animated Gradient Background */}
+        <div className="absolute inset-0 pointer-events-none z-0">
+          <div className="absolute left-1/2 top-1/3 -translate-x-1/2 w-[60vw] h-[60vw] bg-gradient-to-br from-orange-200 via-orange-100 to-white rounded-full blur-3xl opacity-60 animate-pulse" />
+        </div>
+        {/* Hero Section */}
+        <div className="flex-1 max-w-xl w-full z-10">
+          <h1 className="text-5xl font-extrabold text-gray-900 tracking-tight sm:text-6xl md:text-7xl leading-tight">
+            Simplify Your Invoicing
+            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-orange-500 via-orange-400 to-orange-600">with Meraki Solution</span>
+          </h1>
+          <p className="mt-5 text-lg text-gray-600 sm:text-xl lg:text-lg xl:text-xl">
+            Meraki Solution eliminates the hassle of traditional billing methods. Create professional invoices, automate reminders, and get paid faster—all in one place.
+          </p>
+          <div className="mt-8 flex gap-4">
+            <a href="/sign-up">
+              <Button size="lg" variant="default" className="text-lg rounded-full bg-orange-500 hover:bg-orange-600 text-white shadow-lg">
+                Get Started
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Button>
+            </a>
+            <a href="/pricing">
+              <Button size="lg" variant="outline" className="text-lg rounded-full border-orange-400 text-orange-500 hover:bg-orange-50">
+                See Pricing
+              </Button>
+            </a>
           </div>
+          {/* Trust Bar */}
+          <div className="mt-8 flex items-center gap-2 text-sm text-gray-500">
+            <Star className="h-5 w-5 text-orange-400" />
+            <span>Trusted by 1,000+ businesses</span>
+          </div>
+        </div>
+        {/* Stock Image */}
+        <div className="flex-1 w-full max-w-2xl z-10 flex items-center justify-center">
+          <img
+            src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=800&q=80"
+            alt="Business team working on invoices"
+            className="rounded-3xl shadow-xl object-cover w-full h-[340px] lg:h-[420px] border border-orange-100 bg-white"
+            loading="lazy"
+          />
         </div>
       </section>
 
+      {/* Features Section */}
       <section className="py-16 bg-white w-full">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="lg:grid lg:grid-cols-3 lg:gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {/* Unlimited Invoices */}
             <div>
-              <div className="flex items-center justify-center h-12 w-12 rounded-md bg-orange-500 text-white">
-                <svg viewBox="0 0 24 24" className="h-6 w-6">
-                  <path
-                    fill="currentColor"
-                    d="M14.23 12.004a2.236 2.236 0 0 1-2.235 2.236 2.236 2.236 0 0 1-2.236-2.236 2.236 2.236 0 0 1 2.235-2.236 2.236 2.236 0 0 1 2.236 2.236zm2.648-10.69c-1.346 0-3.107.96-4.888 2.622-1.78-1.653-3.542-2.602-4.887-2.602-.41 0-.783.093-1.106.278-1.375.793-1.683 3.264-.973 6.365C1.98 8.917 0 10.42 0 12.004c0 1.59 1.99 3.097 5.043 4.03-.704 3.113-.39 5.588.988 6.38.32.187.69.275 1.102.275 1.345 0 3.107-.96 4.888-2.624 1.78 1.654 3.542 2.603 4.887 2.603.41 0 .783-.09 1.106-.275 1.374-.792 1.683-3.263.973-6.365C22.02 15.096 24 13.59 24 12.004c0-1.59-1.99-3.097-5.043-4.032.704-3.11.39-5.587-.988-6.38-.318-.184-.688-.277-1.092-.278zm-.005 1.09v.006c.225 0 .406.044.558.127.666.382.955 1.835.73 3.704-.054.46-.142.945-.25 1.44-.96-.236-2.006-.417-3.107-.534-.66-.905-1.345-1.727-2.035-2.447 1.592-1.48 3.087-2.292 4.105-2.295zm-9.77.02c1.012 0 2.514.808 4.11 2.28-.686.72-1.37 1.537-2.02 2.442-1.107.117-2.154.298-3.113.538-.112-.49-.195-.964-.254-1.42-.23-1.868.054-3.32.714-3.707.19-.09.4-.127.563-.132zm4.882 3.05c.455.468.91.992 1.36 1.564-.44-.02-.89-.034-1.345-.034-.46 0-.915.01-1.36.034.44-.572.895-1.096 1.345-1.565zM12 8.1c.74 0 1.477.034 2.202.093.406.582.802 1.203 1.183 1.86.372.64.71 1.29 1.018 1.946-.308.655-.646 1.31-1.013 1.95-.38.66-.773 1.288-1.18 1.87-.728.063-1.466.098-2.21.098-.74 0-1.477-.035-2.202-.093-.406-.582-.802-1.204-1.183-1.86-.372-.64-.71-1.29-1.018-1.946.303-.657.646-1.313 1.013-1.954.38-.66.773-1.286 1.18-1.868.728-.064 1.466-.098 2.21-.098zm-3.635.254c-.24.377-.48.763-.704 1.16-.225.39-.435.782-.635 1.174-.265-.656-.49-1.31-.676-1.947.64-.15 1.315-.283 2.015-.386zm7.26 0c.695.103 1.365.23 2.006.387-.18.632-.405 1.282-.66 1.933-.2-.39-.41-.783-.64-1.174-.225-.392-.465-.774-.705-1.146zm3.063.675c.484.15.944.317 1.375.498 1.732.74 2.852 1.708 2.852 2.476-.005.768-1.125 1.74-2.857 2.475-.42.18-.88.342-1.355.493-.28-.958-.646-1.956-1.1-2.98.45-1.017.81-2.01 1.085-2.964zm-13.395.004c.278.96.645 1.957 1.1 2.98-.45 1.017-.812 2.01-1.086 2.964-.484-.15-.944-.318-1.37-.5-1.732-.737-2.852-1.706-2.852-2.474 0-.768 1.12-1.742 2.852-2.476.42-.18.88-.342 1.356-.494zm11.678 4.28c.265.657.49 1.312.676 1.948-.64.157-1.316.29-2.016.39.24-.375.48-.762.705-1.158.225-.39.435-.788.636-1.18zm-9.945.02c.2.392.41.783.64 1.175.23.39.465.772.705 1.143-.695-.102-1.365-.23-2.006-.386.18-.63.406-1.282.66-1.933zM17.92 16.32c.112.493.2.968.254 1.423.23 1.868-.054 3.32-.714 3.708-.147.09-.338.128-.563.128-1.012 0-2.514-.807-4.11-2.28.686-.72 1.37-1.536 2.02-2.44 1.107-.118 2.154-.3 3.113-.54zm-11.83.01c.96.234 2.006.415 3.107.532.66.905 1.345 1.727 2.035 2.446-1.595 1.483-3.092 2.295-4.11 2.295-.22-.005-.406-.05-.553-.132-.666-.38-.955-1.834-.73-3.703.054-.46.142-.944.25-1.438zm4.56.64c.44.02.89.034 1.345.034.46 0 .915-.01 1.36-.034-.44.572-.895 1.095-1.345 1.565-.455-.47-.91-.993-1.36-1.565z"
-                  />
-                </svg>
-              </div>
-              <div className="mt-5">
-                <h2 className="text-lg font-medium text-gray-900">
-                  Next.js and React
-                </h2>
-                <p className="mt-2 text-base text-gray-500">
-                  Leverage the power of modern web technologies for optimal
-                  performance and developer experience.
-                </p>
-              </div>
-            </div>
-
-            <div className="mt-10 lg:mt-0">
-              <div className="flex items-center justify-center h-12 w-12 rounded-md bg-orange-500 text-white">
-                <Database className="h-6 w-6" />
-              </div>
-              <div className="mt-5">
-                <h2 className="text-lg font-medium text-gray-900">
-                  Postgres and Drizzle ORM
-                </h2>
-                <p className="mt-2 text-base text-gray-500">
-                  Robust database solution with an intuitive ORM for efficient
-                  data management and scalability.
-                </p>
-              </div>
-            </div>
-
-            <div className="mt-10 lg:mt-0">
               <div className="flex items-center justify-center h-12 w-12 rounded-md bg-orange-500 text-white">
                 <CreditCard className="h-6 w-6" />
               </div>
               <div className="mt-5">
-                <h2 className="text-lg font-medium text-gray-900">
-                  Stripe Integration
-                </h2>
-                <p className="mt-2 text-base text-gray-500">
-                  Seamless payment processing and subscription management with
-                  industry-leading Stripe integration.
-                </p>
+                <h2 className="text-lg font-semibold text-gray-900">Unlimited Invoices</h2>
+                <p className="mt-2 text-base text-gray-500">Create and send unlimited professional invoices to your clients.</p>
+              </div>
+            </div>
+            {/* Automated Reminders */}
+            <div>
+              <div className="flex items-center justify-center h-12 w-12 rounded-md bg-orange-500 text-white">
+                <Database className="h-6 w-6" />
+              </div>
+              <div className="mt-5">
+                <h2 className="text-lg font-semibold text-gray-900">Automated Reminders</h2>
+                <p className="mt-2 text-base text-gray-500">Send automatic payment reminders and follow-ups to clients.</p>
+              </div>
+            </div>
+            {/* Real-Time Payment Tracking */}
+            <div>
+              <div className="flex items-center justify-center h-12 w-12 rounded-md bg-orange-500 text-white">
+                <Star className="h-6 w-6" />
+              </div>
+              <div className="mt-5">
+                <h2 className="text-lg font-semibold text-gray-900">Real-Time Payment Tracking</h2>
+                <p className="mt-2 text-base text-gray-500">Monitor invoice status and get notified when payments are received.</p>
+              </div>
+            </div>
+            {/* Online Payments */}
+            <div>
+              <div className="flex items-center justify-center h-12 w-12 rounded-md bg-orange-500 text-white">
+                <CreditCard className="h-6 w-6" />
+              </div>
+              <div className="mt-5">
+                <h2 className="text-lg font-semibold text-gray-900">Online Payments</h2>
+                <p className="mt-2 text-base text-gray-500">Accept payments online with integrated payment gateways.</p>
+              </div>
+            </div>
+            {/* Financial Reports */}
+            <div>
+              <div className="flex items-center justify-center h-12 w-12 rounded-md bg-orange-500 text-white">
+                <Database className="h-6 w-6" />
+              </div>
+              <div className="mt-5">
+                <h2 className="text-lg font-semibold text-gray-900">Financial Reports</h2>
+                <p className="mt-2 text-base text-gray-500">Generate basic and advanced financial reports to analyze your business.</p>
+              </div>
+            </div>
+            {/* Client Management */}
+            <div>
+              <div className="flex items-center justify-center h-12 w-12 rounded-md bg-orange-500 text-white">
+                <Users className="h-6 w-6" />
+              </div>
+              <div className="mt-5">
+                <h2 className="text-lg font-semibold text-gray-900">Client Management</h2>
+                <p className="mt-2 text-base text-gray-500">Manage all your clients in one place, with unlimited clients on Pro.</p>
+              </div>
+            </div>
+            {/* Custom Invoice Templates */}
+            <div>
+              <div className="flex items-center justify-center h-12 w-12 rounded-md bg-orange-500 text-white">
+                <Star className="h-6 w-6" />
+              </div>
+              <div className="mt-5">
+                <h2 className="text-lg font-semibold text-gray-900">Custom Invoice Templates</h2>
+                <p className="mt-2 text-base text-gray-500">Personalize your invoices with custom templates (Pro).</p>
+              </div>
+            </div>
+            {/* Team Management */}
+            <div>
+              <div className="flex items-center justify-center h-12 w-12 rounded-md bg-orange-500 text-white">
+                <Users className="h-6 w-6" />
+              </div>
+              <div className="mt-5">
+                <h2 className="text-lg font-semibold text-gray-900">Team Management</h2>
+                <p className="mt-2 text-base text-gray-500">Invite, remove, and manage team members with roles and permissions.</p>
+              </div>
+            </div>
+            {/* Expense Tracking */}
+            <div>
+              <div className="flex items-center justify-center h-12 w-12 rounded-md bg-orange-500 text-white">
+                <Database className="h-6 w-6" />
+              </div>
+              <div className="mt-5">
+                <h2 className="text-lg font-semibold text-gray-900">Expense Tracking</h2>
+                <p className="mt-2 text-base text-gray-500">Track and categorize business expenses for better financial control.</p>
+              </div>
+            </div>
+            {/* Time Tracking */}
+            <div>
+              <div className="flex items-center justify-center h-12 w-12 rounded-md bg-orange-500 text-white">
+                <Database className="h-6 w-6" />
+              </div>
+              <div className="mt-5">
+                <h2 className="text-lg font-semibold text-gray-900">Time Tracking</h2>
+                <p className="mt-2 text-base text-gray-500">Log billable hours and track time spent on projects.</p>
+              </div>
+            </div>
+            {/* Security Settings */}
+            <div>
+              <div className="flex items-center justify-center h-12 w-12 rounded-md bg-orange-500 text-white">
+                <Shield className="h-6 w-6" />
+              </div>
+              <div className="mt-5">
+                <h2 className="text-lg font-semibold text-gray-900">Security Settings</h2>
+                <p className="mt-2 text-base text-gray-500">Manage your account security, change password, and delete account securely.</p>
+              </div>
+            </div>
+            {/* Activity Log */}
+            <div>
+              <div className="flex items-center justify-center h-12 w-12 rounded-md bg-orange-500 text-white">
+                <Activity className="h-6 w-6" />
+              </div>
+              <div className="mt-5">
+                <h2 className="text-lg font-semibold text-gray-900">Activity Log</h2>
+                <p className="mt-2 text-base text-gray-500">View a detailed audit trail of all important account and team actions.</p>
+              </div>
+            </div>
+            {/* Priority Support */}
+            <div>
+              <div className="flex items-center justify-center h-12 w-12 rounded-md bg-orange-500 text-white">
+                <Star className="h-6 w-6" />
+              </div>
+              <div className="mt-5">
+                <h2 className="text-lg font-semibold text-gray-900">Priority Support</h2>
+                <p className="mt-2 text-base text-gray-500">Get fast, dedicated support with the Pro plan.</p>
+              </div>
+            </div>
+            {/* Subscription Management */}
+            <div>
+              <div className="flex items-center justify-center h-12 w-12 rounded-md bg-orange-500 text-white">
+                <CreditCard className="h-6 w-6" />
+              </div>
+              <div className="mt-5">
+                <h2 className="text-lg font-semibold text-gray-900">Subscription Management</h2>
+                <p className="mt-2 text-base text-gray-500">Easily manage your subscription and billing from your dashboard.</p>
+              </div>
+            </div>
+            {/* Dashboard Analytics */}
+            <div>
+              <div className="flex items-center justify-center h-12 w-12 rounded-md bg-orange-500 text-white">
+                <Database className="h-6 w-6" />
+              </div>
+              <div className="mt-5">
+                <h2 className="text-lg font-semibold text-gray-900">Dashboard Analytics</h2>
+                <p className="mt-2 text-base text-gray-500">Visualize revenue, outstanding payments, top clients, and AI-powered insights.</p>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      <section className="py-16 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="lg:grid lg:grid-cols-2 lg:gap-8 lg:items-center">
-            <div>
-              <h2 className="text-3xl font-bold text-gray-900 sm:text-4xl">
-                Ready to launch your SaaS?
-              </h2>
-              <p className="mt-3 max-w-3xl text-lg text-gray-500">
-                Our template provides everything you need to get your SaaS up
-                and running quickly. Don't waste time on boilerplate - focus on
-                what makes your product unique.
-              </p>
-            </div>
-            <div className="mt-8 lg:mt-0 flex justify-center lg:justify-end">
-              <a href="https://github.com/nextjs/saas-starter" target="_blank">
-                <Button
-                  size="lg"
-                  variant="outline"
-                  className="text-lg rounded-full"
-                >
-                  View the code
-                  <ArrowRight className="ml-3 h-6 w-6" />
-                </Button>
-              </a>
-            </div>
+      {/* Testimonial Section */}
+      <section className="py-12 bg-gradient-to-r from-orange-50 via-white to-orange-100">
+        <div className="max-w-4xl mx-auto px-4">
+          <div className="grid md:grid-cols-2 gap-8">
+            {testimonials.map((t, i) => (
+              <div key={i} className="rounded-2xl bg-white shadow-lg p-8 flex flex-col items-center text-center border border-orange-100">
+                <div className="mb-4">{t.avatar}</div>
+                <blockquote className="text-lg italic text-gray-700">{t.quote}</blockquote>
+                <div className="mt-4 font-semibold text-orange-600">{t.name}</div>
+                <div className="text-xs text-gray-400">{t.company}</div>
+              </div>
+            ))}
           </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-16 bg-gradient-to-r from-orange-500 via-orange-400 to-orange-600 text-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-8">
+          <div>
+            <h2 className="text-3xl font-bold sm:text-4xl mb-2">Ready to streamline your billing?</h2>
+            <p className="max-w-2xl text-lg opacity-90">Meraki Solution provides everything you need to manage invoices, payments, and clients efficiently. Focus on growing your business while we handle the billing.</p>
+          </div>
+          <a href="/sign-up">
+            <Button size="lg" variant="default" className="text-lg rounded-full bg-white text-orange-600 hover:bg-orange-50 shadow-lg">
+              Try Meraki Solution
+              <ArrowRight className="ml-3 h-6 w-6" />
+            </Button>
+          </a>
         </div>
       </section>
     </main>

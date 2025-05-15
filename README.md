@@ -1,20 +1,24 @@
-# Next.js SaaS Starter
+# Meraki Solution
+## 📋 Overview
 
-This is a starter template for building a SaaS application using **Next.js** with support for authentication, Stripe integration for payments, and a dashboard for logged-in users.
+Meraki Invoicing is a comprehensive invoicing solution designed to streamline financial operations for freelancers and small businesses. The platform combines intuitive invoice management with powerful AI insights to help users make data-driven decisions and improve their financial workflows.
 
-**Demo: [https://next-saas-start.vercel.app/](https://next-saas-start.vercel.app/)**
+## ✨ Key Features
 
-## Features
-
-- Marketing landing page (`/`) with animated Terminal element
-- Pricing page (`/pricing`) which connects to Stripe Checkout
-- Dashboard pages with CRUD operations on users/teams
-- Basic RBAC with Owner and Member roles
-- Subscription management with Stripe Customer Portal
-- Email/password authentication with JWTs stored to cookies
-- Global middleware to protect logged-in routes
-- Local middleware to protect Server Actions or validate Zod schemas
-- Activity logging system for any user events
+- **Smart Invoice Management**: Create, edit, and track invoices with an intuitive interface
+- **Client Management**: Maintain a database of clients with detailed profiles and payment histories
+- **AI-Powered Insights**: Leverage Google Gemini AI to analyze financial data and provide actionable insights
+- **Real-time Analytics**: Track revenue, outstanding payments, and business performance
+- **Secure Payments**: Integrate with popular payment gateways for seamless transactions
+- **Customizable Templates**: Create branded invoices that reflect your business identity
+- **Expense Tracking**: Monitor business expenses and categorize spending
+- **Time Tracking**: Log billable hours and automatically generate invoices
+- **Recurring Invoices**: Set up automated billing for regular clients
+- **Client Portal**: Allow clients to view and pay invoices through a dedicated portal
+- **Multi-currency Support**: Work with clients globally using multiple currencies
+- **Tax Management**: Calculate and track taxes for compliance
+- **Comprehensive Reporting**: Generate detailed financial reports for accounting and tax purposes
+- **Mobile Responsive**: Access your invoicing dashboard from any device
 
 ## Tech Stack
 
@@ -27,8 +31,8 @@ This is a starter template for building a SaaS application using **Next.js** wit
 ## Getting Started
 
 ```bash
-git clone https://github.com/nextjs/saas-starter
-cd saas-starter
+git clone https://github.com/your-org/meraki-solution
+cd meraki-solution
 pnpm install
 ```
 
@@ -66,7 +70,7 @@ Finally, run the Next.js development server:
 pnpm dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser to see the app in action.
+Open [http://localhost:3000](http://localhost:3000) in your browser to see Meraki Solution in action.
 
 You can listen for Stripe webhooks locally through their CLI to handle subscription change events:
 
@@ -82,9 +86,9 @@ To test Stripe payments, use the following test card details:
 - Expiration: Any future date
 - CVC: Any 3-digit number
 
-## Going to Production
+## Production Deployment
 
-When you're ready to deploy your SaaS application to production, follow these steps:
+When you're ready to deploy Meraki Solution to production, follow these steps:
 
 ### Set up a production Stripe webhook
 

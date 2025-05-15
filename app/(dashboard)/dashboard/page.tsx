@@ -1,7 +1,8 @@
 'use client';
 
+import React from 'react';
 import { Button } from '@/components/ui/button';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import {
   Card,
   CardContent,
@@ -269,19 +270,68 @@ function InviteTeamMember() {
   );
 }
 
-export default function SettingsPage() {
+export default function HomePage() {
+  const { data: stats = {} } = useSWR('/api/analytics', (url) => fetch(url).then(r => r.json()));
+  const { data: ai = { insights: [] } } = useSWR('/api/ai-insights', (url) => fetch(url).then(r => r.json()));
   return (
-    <section className="flex-1 p-4 lg:p-8">
-      <h1 className="text-lg lg:text-2xl font-medium mb-6">Team Settings</h1>
-      <Suspense fallback={<SubscriptionSkeleton />}>
-        <ManageSubscription />
-      </Suspense>
-      <Suspense fallback={<TeamMembersSkeleton />}>
-        <TeamMembers />
-      </Suspense>
-      <Suspense fallback={<InviteTeamMemberSkeleton />}>
-        <InviteTeamMember />
-      </Suspense>
-    </section>
+    <main>
+      <section className="py-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+          <div className="bg-white rounded-lg shadow p-4">
+            <div className="text-xs text-gray-500">Total Revenue</div>
+            <div className="text-2xl font-bold">${(stats.totalRevenue/100).toFixed(2) || '0.00'}</div>
+          </div>
+          <div className="bg-white rounded-lg shadow p-4">
+            <div className="text-xs text-gray-500">Outstanding</div>
+            <div className="text-2xl font-bold">${(stats.outstanding/100).toFixed(2) || '0.00'}</div>
+          </div>
+          <div className="bg-white rounded-lg shadow p-4">
+            <div className="text-xs text-gray-500">Paid Invoices</div>
+            <div className="text-2xl font-bold">{stats.paidCount || 0}</div>
+          </div>
+          <div className="bg-white rounded-lg shadow p-4">
+            <div className="text-xs text-gray-500">Unpaid Invoices</div>
+            <div className="text-2xl font-bold">{stats.unpaidCount || 0}</div>
+          </div>
+        </div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">
+          <div className="bg-white rounded-lg shadow p-4">
+            <div className="text-xs text-gray-500 mb-2">Top Clients</div>
+            <ul>
+              {(stats.topClients || []).map((c: unknown) => {
+                const client = c as { id: number; name: string; total: number };
+                return (
+                  <li key={client.id}>{client.name} (${(client.total/100).toFixed(2)})</li>
+                );
+              })}
+            </ul>
+          </div>
+        </div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">
+          <div className="bg-white rounded-lg shadow p-4">
+            <div className="text-xs text-gray-500 mb-2">AI Insights</div>
+            <ul className="list-disc pl-5">
+              {ai.insights.length === 0 ? (
+                <li className="text-gray-700">No insights yet.</li>
+              ) : (
+                ai.insights.map((insight: string, i: number) => <li key={i} className="text-gray-700">{insight}</li>)
+              )}
+            </ul>
+          </div>
+        </div>
+      </section>
+      <section className="flex-1 p-4 lg:p-8">
+        <h1 className="text-lg lg:text-2xl font-medium mb-6">Team Settings</h1>
+        <Suspense fallback={<SubscriptionSkeleton />}>
+          <ManageSubscription />
+        </Suspense>
+        <Suspense fallback={<TeamMembersSkeleton />}>
+          <TeamMembers />
+        </Suspense>
+        <Suspense fallback={<InviteTeamMemberSkeleton />}>
+          <InviteTeamMember />
+        </Suspense>
+      </section>
+    </main>
   );
 }

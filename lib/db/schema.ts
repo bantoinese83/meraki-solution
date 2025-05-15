@@ -68,6 +68,64 @@ export const invitations = pgTable('invitations', {
   status: varchar('status', { length: 20 }).notNull().default('pending'),
 });
 
+export const clients = pgTable('clients', {
+  id: serial('id').primaryKey(),
+  name: varchar('name', { length: 100 }).notNull(),
+  email: varchar('email', { length: 255 }).notNull(),
+  company: varchar('company', { length: 100 }),
+  phone: varchar('phone', { length: 30 }),
+  address: varchar('address', { length: 255 }),
+  createdAt: timestamp('created_at').notNull().defaultNow(),
+});
+
+export const invoices = pgTable('invoices', {
+  id: serial('id').primaryKey(),
+  clientId: integer('client_id').notNull().references(() => clients.id),
+  issueDate: timestamp('issue_date').notNull().defaultNow(),
+  dueDate: timestamp('due_date').notNull(),
+  status: varchar('status', { length: 30 }).notNull(),
+  total: integer('total').notNull(),
+  notes: text('notes'),
+  createdAt: timestamp('created_at').notNull().defaultNow(),
+  stripePaymentLink: text('stripe_payment_link'),
+  paidAt: timestamp('paid_at'),
+  recurring: integer('recurring').notNull().default(0),
+  recurringInterval: varchar('recurring_interval', { length: 20 }),
+  currency: varchar('currency', { length: 10 }).notNull().default('USD'),
+  tax: integer('tax'),
+  template: text('template'),
+});
+
+export const invoiceItems = pgTable('invoice_items', {
+  id: serial('id').primaryKey(),
+  invoiceId: integer('invoice_id').notNull().references(() => invoices.id),
+  description: varchar('description', { length: 255 }).notNull(),
+  quantity: integer('quantity').notNull(),
+  unitPrice: integer('unit_price').notNull(), // store as cents
+  total: integer('total').notNull(), // store as cents
+});
+
+export const expenses = pgTable('expenses', {
+  id: serial('id').primaryKey(),
+  userId: integer('user_id').notNull().references(() => users.id),
+  teamId: integer('team_id').notNull().references(() => teams.id),
+  description: varchar('description', { length: 255 }).notNull(),
+  amount: integer('amount').notNull(),
+  currency: varchar('currency', { length: 10 }).notNull().default('USD'),
+  date: timestamp('date').notNull().defaultNow(),
+  createdAt: timestamp('created_at').notNull().defaultNow(),
+});
+
+export const timeEntries = pgTable('time_entries', {
+  id: serial('id').primaryKey(),
+  userId: integer('user_id').notNull().references(() => users.id),
+  teamId: integer('team_id').notNull().references(() => teams.id),
+  description: varchar('description', { length: 255 }),
+  hours: integer('hours').notNull(),
+  date: timestamp('date').notNull().defaultNow(),
+  createdAt: timestamp('created_at').notNull().defaultNow(),
+});
+
 export const teamsRelations = relations(teams, ({ many }) => ({
   teamMembers: many(teamMembers),
   activityLogs: many(activityLogs),
@@ -112,6 +170,25 @@ export const activityLogsRelations = relations(activityLogs, ({ one }) => ({
   }),
 }));
 
+export const clientsRelations = relations(clients, ({ many }) => ({
+  invoices: many(invoices),
+}));
+
+export const invoicesRelations = relations(invoices, ({ one, many }) => ({
+  client: one(clients, {
+    fields: [invoices.clientId],
+    references: [clients.id],
+  }),
+  items: many(invoiceItems),
+}));
+
+export const invoiceItemsRelations = relations(invoiceItems, ({ one }) => ({
+  invoice: one(invoices, {
+    fields: [invoiceItems.invoiceId],
+    references: [invoices.id],
+  }),
+}));
+
 export type User = typeof users.$inferSelect;
 export type NewUser = typeof users.$inferInsert;
 export type Team = typeof teams.$inferSelect;
@@ -127,6 +204,12 @@ export type TeamDataWithMembers = Team & {
     user: Pick<User, 'id' | 'name' | 'email'>;
   })[];
 };
+export type Client = typeof clients.$inferSelect;
+export type NewClient = typeof clients.$inferInsert;
+export type Invoice = typeof invoices.$inferSelect;
+export type NewInvoice = typeof invoices.$inferInsert;
+export type InvoiceItem = typeof invoiceItems.$inferSelect;
+export type NewInvoiceItem = typeof invoiceItems.$inferInsert;
 
 export enum ActivityType {
   SIGN_UP = 'SIGN_UP',

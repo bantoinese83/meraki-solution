@@ -1,3 +1,4 @@
+import React from 'react';
 import { checkoutAction } from '@/lib/payments/actions';
 import { Check } from 'lucide-react';
 import { getStripePrices, getStripeProducts } from '@/lib/payments/stripe';
@@ -12,38 +13,43 @@ export default async function PricingPage() {
     getStripeProducts(),
   ]);
 
-  const basePlan = products.find((product) => product.name === 'Base');
-  const plusPlan = products.find((product) => product.name === 'Plus');
+  const starterPlan = products.find((product: { name: string }) => product.name === 'Starter');
+  const proPlan = products.find((product: { name: string }) => product.name === 'Pro');
 
-  const basePrice = prices.find((price) => price.productId === basePlan?.id);
-  const plusPrice = prices.find((price) => price.productId === plusPlan?.id);
+  const starterPrice = prices.find((price: { productId: string }) => price.productId === starterPlan?.id);
+  const proPrice = prices.find((price: { productId: string }) => price.productId === proPlan?.id);
 
   return (
     <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="grid md:grid-cols-2 gap-8 max-w-xl mx-auto">
         <PricingCard
-          name={basePlan?.name || 'Base'}
-          price={basePrice?.unitAmount || 800}
-          interval={basePrice?.interval || 'month'}
-          trialDays={basePrice?.trialPeriodDays || 7}
+          name={starterPlan?.name || 'Starter'}
+          price={starterPrice?.unitAmount || 800}
+          interval={starterPrice?.interval || 'month'}
+          trialDays={starterPrice?.trialPeriodDays || 7}
           features={[
-            'Unlimited Usage',
-            'Unlimited Workspace Members',
-            'Email Support',
+            'Create unlimited invoices',
+            'Automated payment reminders',
+            'Track payment status',
+            'Basic financial reports',
+            'Manage up to 50 clients',
           ]}
-          priceId={basePrice?.id}
+          priceId={starterPrice?.id}
         />
         <PricingCard
-          name={plusPlan?.name || 'Plus'}
-          price={plusPrice?.unitAmount || 1200}
-          interval={plusPrice?.interval || 'month'}
-          trialDays={plusPrice?.trialPeriodDays || 7}
+          name={proPlan?.name || 'Pro'}
+          price={proPrice?.unitAmount || 1200}
+          interval={proPrice?.interval || 'month'}
+          trialDays={proPrice?.trialPeriodDays || 7}
           features={[
-            'Everything in Base, and:',
-            'Early Access to New Features',
-            '24/7 Support + Slack Access',
+            'Everything in Starter, plus:',
+            'Advanced financial reports',
+            'Unlimited clients',
+            'Custom invoice templates',
+            'Priority support',
+            'Online payment integrations',
           ]}
-          priceId={plusPrice?.id}
+          priceId={proPrice?.id}
         />
       </div>
     </main>
@@ -78,7 +84,7 @@ function PricingCard({
         </span>
       </p>
       <ul className="space-y-4 mb-8">
-        {features.map((feature, index) => (
+        {features.map((feature: string, index: number) => (
           <li key={index} className="flex items-start">
             <Check className="h-5 w-5 text-orange-500 mr-2 mt-0.5 flex-shrink-0" />
             <span className="text-gray-700">{feature}</span>

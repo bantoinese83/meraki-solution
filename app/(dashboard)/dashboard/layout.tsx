@@ -1,10 +1,11 @@
 'use client';
 
+import React from 'react';
 import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Button } from '@/components/ui/button';
-import { Users, Settings, Shield, Activity, Menu } from 'lucide-react';
+import { Users, Settings, Shield, Activity, Menu, CreditCard } from 'lucide-react';
 
 export default function DashboardLayout({
   children
@@ -16,6 +17,11 @@ export default function DashboardLayout({
 
   const navItems = [
     { href: '/dashboard', icon: Users, label: 'Team' },
+    { href: '/dashboard/clients', icon: Users, label: 'Clients' },
+    { href: '/dashboard/invoices', icon: CreditCard, label: 'Invoices' },
+    { href: '/dashboard/expenses', icon: CreditCard, label: 'Expenses' },
+    { href: '/dashboard/time-tracking', icon: CreditCard, label: 'Time Tracking' },
+    { href: '/dashboard/reports', icon: CreditCard, label: 'Reports' },
     { href: '/dashboard/general', icon: Settings, label: 'General' },
     { href: '/dashboard/activity', icon: Activity, label: 'Activity' },
     { href: '/dashboard/security', icon: Shield, label: 'Security' }

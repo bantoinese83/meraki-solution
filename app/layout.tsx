@@ -1,3 +1,4 @@
+import React from 'react';
 import './globals.css';
 import type { Metadata, Viewport } from 'next';
 import { Manrope } from 'next/font/google';
@@ -5,8 +6,8 @@ import { getUser, getTeamForUser } from '@/lib/db/queries';
 import { SWRConfig } from 'swr';
 
 export const metadata: Metadata = {
-  title: 'Next.js SaaS Starter',
-  description: 'Get started quickly with Next.js, Postgres, and Stripe.'
+  title: 'Meraki Solution',
+  description: 'A comprehensive invoicing platform to streamline billing, automate reminders, and manage payments for your business.'
 };
 
 export const viewport: Viewport = {
