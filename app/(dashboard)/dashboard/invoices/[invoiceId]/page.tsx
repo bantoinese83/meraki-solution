@@ -38,8 +38,38 @@ export default function InvoiceDetailPage() {
   const [template, setTemplate] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
+  // Add missing state for payments and form fields
+  const [payments, setPayments] = useState<any[]>([]);
+  const [amount, setAmount] = useState('');
+  const [method, setMethod] = useState('');
+  const [note, setNote] = useState('');
+
+  // Add missing handlePayment function
+  const handlePayment = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!amount) return;
+    setLoading(true);
+    // Simulate payment addition (replace with API call as needed)
+    setPayments(prev => [
+      ...prev,
+      {
+        id: Date.now(),
+        date: new Date().toISOString(),
+        amount: Number(amount),
+        method,
+        note,
+      },
+    ]);
+    setAmount('');
+    setMethod('');
+    setNote('');
+    setLoading(false);
+  };
+
   useEffect(() => {
-    if (!invoiceId) return;
+    if (!invoiceId) {
+      return;
+    }
     setLoading(true);
     fetch(`/api/invoices?id=${invoiceId}`)
       .then(res => res.json())
