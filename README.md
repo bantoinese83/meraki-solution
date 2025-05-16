@@ -121,3 +121,52 @@ While this template is intentionally minimal and to be used as a learning resour
 - https://shipfa.st
 - https://makerkit.dev
 - https://zerotoshipped.com
+
+## ⚙️ Environment Variables
+
+Create a `.env` file in your project root. The following variables are required:
+
+- `BASE_URL` - Your app's base URL (e.g., http://localhost:3000)
+- `STRIPE_SECRET_KEY` - Your Stripe secret key
+- `STRIPE_WEBHOOK_SECRET` - Your Stripe webhook secret
+- `POSTGRES_URL` - Your Postgres database connection string
+- `AUTH_SECRET` - A random string for session encryption (generate with `openssl rand -base64 32`)
+- `GEMINI_API_KEY` - Your Google Gemini API key (for AI insights and OCR)
+- (Optional) `OCR_SPACE_API_KEY` - If using OCR.space as a fallback for receipt OCR
+
+**Never commit your `.env` file or any secrets to version control.**
+
+## 🔒 Security & Secret Management
+
+- **Never hardcode secrets or API keys in your code.**
+- Always use environment variables for sensitive credentials.
+- If a secret is accidentally committed:
+  1. **Revoke the key immediately** in the provider's dashboard (e.g., Google Cloud Console, Stripe).
+  2. **Replace the key** in your environment and update the `.env` file.
+  3. **Remove the secret from your git history** if possible (see [GitHub docs](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/removing-sensitive-data-from-a-repository)).
+  4. **Push a fix** and close any GitHub secret scanning alerts.
+
+## 🤖 AI & OCR Features
+
+### AI-Powered Insights (Gemini)
+- The dashboard uses Google Gemini to analyze your business data and provide actionable insights.
+- Requires `GEMINI_API_KEY` in your environment.
+- Insights are shown on the dashboard and can be customized in `app/api/ai-insights/route.ts`.
+
+### Receipt OCR Extraction
+- Upload receipts in the Expenses section to extract merchant, date, total, and category using AI OCR.
+- By default, uses Google Gemini for high-accuracy extraction. Optionally, you can set up `OCR_SPACE_API_KEY` for fallback OCR.
+- All extracted data can be reviewed and edited before saving as an expense.
+
+## 👤 Client Portal
+- Each client has access to a dedicated portal to view and pay invoices.
+- Share the portal link with your client: `/client-portal/[clientId]` (replace `[clientId]` with the actual client ID).
+- Clients can update their info, view payment history, and make payments securely.
+
+## 🤝 Contributing
+
+Contributions are welcome! Please open an issue or pull request for bug fixes, improvements, or new features.
+
+## 📝 License
+
+This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
