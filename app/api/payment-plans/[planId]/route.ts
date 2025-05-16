@@ -4,12 +4,16 @@ import { NextRequest } from 'next/server';
 import { eq } from 'drizzle-orm';
 import { getUser } from '@/lib/db/queries';
 
-export async function DELETE(req: NextRequest, { params }: { params: { planId: string } }) {
+export async function DELETE(req: NextRequest) {
   const user = await getUser();
   if (!user || (user.role !== 'owner' && user.role !== 'admin')) {
     return new Response(JSON.stringify({ error: 'Forbidden' }), { status: 403 });
   }
-  const planId = Number(params.planId);
+  // Extract planId from the URL
+  const url = new URL(req.url);
+  const segments = url.pathname.split('/');
+  const planIdStr = segments[segments.length - 1];
+  const planId = Number(planIdStr);
   if (!planId) {
     return new Response(JSON.stringify({ error: 'Missing planId' }), { status: 400 });
   }
