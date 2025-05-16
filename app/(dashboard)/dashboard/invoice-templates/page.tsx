@@ -54,7 +54,7 @@ function DraggableCanvasItem({ item, index, moveItem, onRemove, onEdit, isEditin
     <Card ref={ref} className={`p-3 flex items-center justify-between ${isDragging ? 'opacity-50' : ''} ${isEditing ? 'ring-2 ring-orange-400' : ''}`}> 
       <span className="cursor-move mr-2" title="Drag to reorder">☰</span>
       <span className="flex-1 cursor-pointer" onClick={() => onEdit(item.id)}>{PALETTE.find(p => p.type === item.type)?.label || item.type}</span>
-      <Button size="xs" variant="destructive" onClick={() => onRemove(item.id)}>Remove</Button>
+      <Button size="sm" variant="destructive" onClick={() => onRemove(item.id)}>Remove</Button>
     </Card>
   );
 }
