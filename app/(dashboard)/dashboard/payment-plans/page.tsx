@@ -114,8 +114,8 @@ export default function PaymentPlansDashboard() {
               <td>{plan.dueDate ? new Date(plan.dueDate).toLocaleDateString() : ''}</td>
               <td>${(plan.amount / 100).toFixed(2)}</td>
               <td className={plan.status === 'overdue' ? 'text-red-600' : plan.status === 'paid' ? 'text-green-600' : ''}>{plan.status}</td>
-              {isAdmin && <td><Button size="xs" variant="destructive" onClick={() => handleDelete(plan.id)} disabled={loading}>Delete</Button></td>}
-              {isAdmin && <td><Button size="xs" onClick={() => handleShowLog(plan.id)}>View Log</Button></td>}
+              {isAdmin && <td><Button size="sm" variant="destructive" onClick={() => handleDelete(plan.id)} disabled={loading}>Delete</Button></td>}
+              {isAdmin && <td><Button size="sm" onClick={() => handleShowLog(plan.id)}>View Log</Button></td>}
             </tr>
           ))}
         </tbody>
