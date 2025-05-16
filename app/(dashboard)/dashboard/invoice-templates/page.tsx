@@ -283,7 +283,7 @@ export default function InvoiceTemplateDesignerPage() {
             {/* Canvas */}
             <section className="flex-1 relative">
               <h3 className="font-semibold mb-2">Layout Canvas <span className="text-xs text-gray-400">(Drag-and-drop enabled)</span></h3>
-              <div ref={drop} className="min-h-[400px] bg-white border rounded-xl p-6 flex flex-col gap-3">
+              <div ref={node => drop(node)} className="min-h-[400px] bg-white border rounded-xl p-6 flex flex-col gap-3">
                 {canvas.length === 0 && <div className="text-gray-400">Drag components here</div>}
                 {canvas.map((item, idx) => (
                   <DraggableCanvasItem key={item.id} item={item} index={idx} moveItem={moveCanvasItem} onRemove={handleRemoveFromCanvas} onEdit={handleEditItem} isEditing={editingId === item.id} />
