@@ -70,11 +70,16 @@ export default function InvoiceDetailPage() {
       )}
       <section className="bg-white rounded-xl shadow p-6 mb-8">
         {layout ? (
-          layout.map((item: any, idx: number) => (
-            <div key={item.id || idx} className="mb-4 p-2 rounded" style={{ background: item.bgColor || '#fff' }}>
-              {PALETTE_MAP[item.type] ? PALETTE_MAP[item.type](item, invoice) : <div>[{item.type}]</div>}
-            </div>
-          ))
+          layout.map((item: any, idx: number) => {
+            const type = item.type as keyof typeof PALETTE_MAP;
+            return (
+              <div key={item.id || idx} className="mb-4 p-2 rounded" style={{ background: item.bgColor || '#fff' }}>
+                {type in PALETTE_MAP
+                  ? PALETTE_MAP[type](item, invoice)
+                  : <div>[{item.type}]</div>}
+              </div>
+            );
+          })
         ) : (
           <>
             <div className="mb-2 font-semibold">Your Company Name<br />123 Main St<br />info@company.com</div>
