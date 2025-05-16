@@ -23,13 +23,16 @@ export async function POST(req: NextRequest) {
   if (!team) {
     return Response.json({ error: 'Team not found' }, { status: 400 });
   }
-  const [expense] = await db.insert(expenses).values({
-    userId: user.id,
-    teamId: team.id,
-    description,
-    amount: Number(amount),
-    currency
-  }).returning();
+  const [expense] = await db
+    .insert(expenses)
+    .values({
+      userId: user.id,
+      teamId: team.id,
+      description,
+      amount: Number(amount),
+      currency,
+    })
+    .returning();
   return Response.json(expense);
 }
 
@@ -39,4 +42,4 @@ export async function DELETE(req: NextRequest) {
   if (!id) return Response.json({ error: 'Expense id required' }, { status: 400 });
   await db.delete(expenses).where(eq(expenses.id, id));
   return Response.json({ success: true });
-} 
+}

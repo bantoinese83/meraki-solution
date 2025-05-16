@@ -4,7 +4,9 @@ import { NextRequest } from 'next/server';
 
 function toCSV(rows: unknown[], columns: string[]) {
   const header = columns.join(',');
-  const csvRows = rows.map(row => columns.map(col => JSON.stringify((row as Record<string, unknown>)[col] ?? '')).join(','));
+  const csvRows = rows.map((row) =>
+    columns.map((col) => JSON.stringify((row as Record<string, unknown>)[col] ?? '')).join(','),
+  );
   return [header, ...csvRows].join('\n');
 }
 
@@ -15,10 +17,20 @@ export async function GET(req: NextRequest) {
   switch (type) {
     case 'invoices':
       rows = await db.select().from(invoices);
-      columns = ['id', 'clientId', 'issueDate', 'dueDate', 'status', 'total', 'currency', 'tax', 'paidAt'];
+      columns = [
+        'id',
+        'clientId',
+        'issueDate',
+        'dueDate',
+        'status',
+        'total',
+        'currency',
+        'tax',
+        'paidAt',
+      ];
       break;
     case 'payments':
-      rows = (await db.select().from(invoices)).filter(i => i.status === 'paid');
+      rows = (await db.select().from(invoices)).filter((i) => i.status === 'paid');
       columns = ['id', 'clientId', 'issueDate', 'dueDate', 'total', 'currency', 'tax', 'paidAt'];
       break;
     case 'clients':
@@ -27,7 +39,16 @@ export async function GET(req: NextRequest) {
       break;
     case 'expenses':
       rows = await db.select().from(expenses);
-      columns = ['id', 'userId', 'teamId', 'description', 'amount', 'currency', 'date', 'createdAt'];
+      columns = [
+        'id',
+        'userId',
+        'teamId',
+        'description',
+        'amount',
+        'currency',
+        'date',
+        'createdAt',
+      ];
       break;
     case 'time-entries':
       rows = await db.select().from(timeEntries);
@@ -40,7 +61,7 @@ export async function GET(req: NextRequest) {
   return new Response(csv, {
     headers: {
       'Content-Type': 'text/csv',
-      'Content-Disposition': `attachment; filename="${type}.csv"`
-    }
+      'Content-Disposition': `attachment; filename="${type}.csv"`,
+    },
   });
-} 
+}

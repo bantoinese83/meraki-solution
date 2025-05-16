@@ -5,9 +5,10 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
-import { Lock, Trash2, Loader2 } from 'lucide-react';
+import { Lock, Trash2, Loader2, Info, CheckCircle, AlertCircle } from 'lucide-react';
 import { useActionState } from 'react';
 import { updatePassword, deleteAccount } from '@/app/(login)/actions';
+import { AuroraText } from '@/components/magicui/aurora-text';
 
 type PasswordState = {
   currentPassword?: string;
@@ -29,22 +30,32 @@ export default function SecurityPage() {
     FormData
   >(updatePassword, {});
 
-  const [deleteState, deleteAction, isDeletePending] = useActionState<
-    DeleteState,
-    FormData
-  >(deleteAccount, {});
+  const [deleteState, deleteAction, isDeletePending] = useActionState<DeleteState, FormData>(
+    deleteAccount,
+    {},
+  );
 
   return (
     <section className="flex-1 p-4 lg:p-8">
-      <h1 className="text-lg lg:text-2xl font-medium bold text-gray-900 mb-6">
-        Security Settings
+      <h1 className="text-4xl font-extrabold mb-8">
+        <AuroraText>Security Settings</AuroraText>
       </h1>
-      <Card className="mb-8">
+      <div className="mb-8 bg-orange-50 rounded-xl p-6 shadow flex items-center gap-4">
+        <Info className="w-8 h-8 text-orange-400 flex-shrink-0" />
+        <div>
+          <div className="text-lg font-semibold text-orange-700 mb-1">Manage Your Account Security</div>
+          <div className="text-gray-700">
+            Update your password regularly and delete your account if needed. Keeping your credentials secure helps protect your data and privacy.
+          </div>
+        </div>
+      </div>
+      <Card className="mb-8 relative overflow-hidden">
         <CardHeader>
           <CardTitle>Password</CardTitle>
         </CardHeader>
         <CardContent>
           <form className="space-y-4" action={passwordAction}>
+            <input type="text" name="username" autoComplete="username" style={{ display: 'none' }} tabIndex={-1} />
             <div>
               <Label htmlFor="current-password" className="mb-2">
                 Current Password
@@ -83,6 +94,7 @@ export default function SecurityPage() {
                 id="confirm-password"
                 name="confirmPassword"
                 type="password"
+                autoComplete="new-password"
                 required
                 minLength={8}
                 maxLength={100}
@@ -90,14 +102,20 @@ export default function SecurityPage() {
               />
             </div>
             {passwordState.error && (
-              <p className="text-red-500 text-sm">{passwordState.error}</p>
+              <div className="flex items-center gap-2 text-red-500 text-sm">
+                <AlertCircle className="w-4 h-4" />
+                {passwordState.error}
+              </div>
             )}
             {passwordState.success && (
-              <p className="text-green-500 text-sm">{passwordState.success}</p>
+              <div className="flex items-center gap-2 text-green-600 text-sm">
+                <CheckCircle className="w-4 h-4" />
+                {passwordState.success}
+              </div>
             )}
             <Button
               type="submit"
-              className="bg-orange-500 hover:bg-orange-600 text-white"
+              className="btn-meraki px-6 py-2 rounded-full text-lg font-semibold shadow-md"
               disabled={isPasswordPending}
             >
               {isPasswordPending ? (
@@ -116,7 +134,7 @@ export default function SecurityPage() {
         </CardContent>
       </Card>
 
-      <Card>
+      <Card className="relative overflow-hidden">
         <CardHeader>
           <CardTitle>Delete Account</CardTitle>
         </CardHeader>
@@ -125,6 +143,7 @@ export default function SecurityPage() {
             Account deletion is non-reversable. Please proceed with caution.
           </p>
           <form action={deleteAction} className="space-y-4">
+            <input type="text" name="username" autoComplete="username" style={{ display: 'none' }} tabIndex={-1} />
             <div>
               <Label htmlFor="delete-password" className="mb-2">
                 Confirm Password
@@ -133,6 +152,7 @@ export default function SecurityPage() {
                 id="delete-password"
                 name="password"
                 type="password"
+                autoComplete="current-password"
                 required
                 minLength={8}
                 maxLength={100}
@@ -140,12 +160,15 @@ export default function SecurityPage() {
               />
             </div>
             {deleteState.error && (
-              <p className="text-red-500 text-sm">{deleteState.error}</p>
+              <div className="flex items-center gap-2 text-red-500 text-sm">
+                <AlertCircle className="w-4 h-4" />
+                {deleteState.error}
+              </div>
             )}
             <Button
               type="submit"
               variant="destructive"
-              className="bg-red-600 hover:bg-red-700"
+              className="bg-red-600 hover:bg-red-700 px-6 py-2 rounded-full text-lg font-semibold shadow-md btn-meraki"
               disabled={isDeletePending}
             >
               {isDeletePending ? (
@@ -163,6 +186,10 @@ export default function SecurityPage() {
           </form>
         </CardContent>
       </Card>
+      <div className="mt-10 text-center text-gray-500 text-sm">
+        Need help with security settings or have account concerns?{' '}
+        <a href="mailto:support@meraki.com" className="text-orange-500 hover:underline">Contact Support</a>
+      </div>
     </section>
   );
 }

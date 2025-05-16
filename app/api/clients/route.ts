@@ -14,7 +14,10 @@ export async function POST(req: NextRequest) {
   if (!name || !email) {
     return Response.json({ error: 'Name and email are required.' }, { status: 400 });
   }
-  const [client] = await db.insert(clients).values({ name, email, company, phone, address }).returning();
+  const [client] = await db
+    .insert(clients)
+    .values({ name, email, company, phone, address })
+    .returning();
   return Response.json(client);
 }
 
@@ -32,4 +35,4 @@ export async function DELETE(req: NextRequest) {
   if (!id) return Response.json({ error: 'Client id required' }, { status: 400 });
   await db.delete(clients).where(eq(clients.id, id));
   return Response.json({ success: true });
-} 
+}

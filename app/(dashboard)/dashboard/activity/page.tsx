@@ -11,9 +11,11 @@ import {
   Mail,
   CheckCircle,
   type LucideIcon,
+  Info,
 } from 'lucide-react';
 import { ActivityType } from '@/lib/db/schema';
 import { getActivityLogs } from '@/lib/db/queries';
+import { AuroraText } from '@/components/magicui/aurora-text';
 
 const iconMap: Record<ActivityType, LucideIcon> = {
   [ActivityType.SIGN_UP]: UserPlus,
@@ -33,12 +35,9 @@ function getRelativeTime(date: Date) {
   const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
 
   if (diffInSeconds < 60) return 'just now';
-  if (diffInSeconds < 3600)
-    return `${Math.floor(diffInSeconds / 60)} minutes ago`;
-  if (diffInSeconds < 86400)
-    return `${Math.floor(diffInSeconds / 3600)} hours ago`;
-  if (diffInSeconds < 604800)
-    return `${Math.floor(diffInSeconds / 86400)} days ago`;
+  if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)} minutes ago`;
+  if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)} hours ago`;
+  if (diffInSeconds < 604800) return `${Math.floor(diffInSeconds / 86400)} days ago`;
   return date.toLocaleDateString();
 }
 
@@ -74,10 +73,19 @@ export default async function ActivityPage() {
 
   return (
     <section className="flex-1 p-4 lg:p-8">
-      <h1 className="text-lg lg:text-2xl font-medium text-gray-900 mb-6">
-        Activity Log
+      <h1 className="text-4xl font-extrabold mb-8">
+        <AuroraText>Activity Log</AuroraText>
       </h1>
-      <Card>
+      <div className="mb-8 bg-orange-50 rounded-xl p-6 shadow flex items-center gap-4">
+        <Info className="w-8 h-8 text-orange-400 flex-shrink-0" />
+        <div>
+          <div className="text-lg font-semibold text-orange-700 mb-1">See Your Recent Account Activity</div>
+          <div className="text-gray-700">
+            Review your recent actions, such as sign-ins, password changes, and team updates. Monitoring your activity helps keep your account secure and gives you a clear record of important events.
+          </div>
+        </div>
+      </div>
+      <Card className="relative overflow-hidden">
         <CardHeader>
           <CardTitle>Recent Activity</CardTitle>
         </CardHeader>
@@ -86,9 +94,7 @@ export default async function ActivityPage() {
             <ul className="space-y-4">
               {logs.map((log) => {
                 const Icon = iconMap[log.action as ActivityType] || Settings;
-                const formattedAction = formatAction(
-                  log.action as ActivityType
-                );
+                const formattedAction = formatAction(log.action as ActivityType);
 
                 return (
                   <li key={log.id} className="flex items-center space-x-4">
@@ -109,19 +115,21 @@ export default async function ActivityPage() {
               })}
             </ul>
           ) : (
-            <div className="flex flex-col items-center justify-center text-center py-12">
+            <div className="flex flex-col items-center justify-center text-center py-12 bg-orange-50 rounded-xl">
               <AlertCircle className="h-12 w-12 text-orange-500 mb-4" />
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                No activity yet
-              </h3>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">No activity yet</h3>
               <p className="text-sm text-gray-500 max-w-sm">
-                When you perform actions like signing in or updating your
-                account, they&#39;ll appear here.
+                When you perform actions like signing in or updating your account, they&#39;ll
+                appear here.
               </p>
             </div>
           )}
         </CardContent>
       </Card>
+      <div className="mt-10 text-center text-gray-500 text-sm">
+        Need help understanding your activity log or have security concerns?{' '}
+        <a href="mailto:support@meraki.com" className="text-orange-500 hover:underline">Contact Support</a>
+      </div>
     </section>
   );
 }

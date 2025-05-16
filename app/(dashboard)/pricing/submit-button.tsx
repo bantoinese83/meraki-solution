@@ -2,22 +2,18 @@
 
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Loader2 } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { useFormStatus } from 'react-dom';
+import { MerakiSpinner } from '@/components/ui/meraki-spinner';
 
 export function SubmitButton() {
   const { pending } = useFormStatus();
 
   return (
-    <Button
-      type="submit"
-      disabled={pending}
-      variant="outline"
-      className="w-full rounded-full"
-    >
+    <Button type="submit" disabled={pending} className="btn-meraki w-full">
       {pending ? (
         <>
-          <Loader2 className="animate-spin mr-2 h-4 w-4" />
+          <MerakiSpinner size={20} className="mr-2" />
           Loading...
         </>
       ) : (

@@ -1,6 +1,10 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, CreditCard, Database, Star, Users, Shield, Activity } from 'lucide-react';
+import { AnimatedShinyText } from '@/components/magicui/animated-shiny-text';
+import { AuroraText } from '@/components/magicui/aurora-text';
+import { SparklesText } from '@/components/magicui/sparkles-text';
+import { BoxReveal } from '@/components/magicui/box-reveal';
 // import FeaturesBentoGrid from './hero-bento';
 
 const testimonials = [
@@ -30,29 +34,42 @@ export default function HomePage() {
         {/* Hero Section */}
         <div className="flex-1 max-w-xl w-full z-10">
           <h1 className="text-5xl font-extrabold text-gray-900 tracking-tight sm:text-6xl md:text-7xl leading-tight">
-            Simplify Your Invoicing
-            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-orange-500 via-orange-400 to-orange-600">with Meraki Solution</span>
+            <AnimatedShinyText shimmerWidth={120} className="inline-block">Simplify Your Invoicing</AnimatedShinyText>
+            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-orange-500 via-orange-400 to-orange-600">
+              <AuroraText>with Meraki Solution</AuroraText>
+            </span>
           </h1>
           <p className="mt-5 text-lg text-gray-600 sm:text-xl lg:text-lg xl:text-xl">
-            Meraki Solution eliminates the hassle of traditional billing methods. Create professional invoices, automate reminders, and get paid faster—all in one place.
+            Meraki Solution eliminates the hassle of traditional billing methods. Create
+            professional invoices, automate reminders, and get paid faster—all in one place.
           </p>
           <div className="mt-8 flex gap-4">
             <a href="/sign-up">
-              <Button size="lg" variant="default" className="text-lg rounded-full bg-orange-500 hover:bg-orange-600 text-white shadow-lg">
+              <Button
+                size="lg"
+                variant="default"
+                className="text-lg rounded-full bg-orange-500 hover:bg-orange-600 text-white shadow-lg"
+              >
                 Get Started
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
             </a>
             <a href="/pricing">
-              <Button size="lg" variant="outline" className="text-lg rounded-full border-orange-400 text-orange-500 hover:bg-orange-50">
+              <Button
+                size="lg"
+                variant="outline"
+                className="text-lg rounded-full border-orange-400 text-orange-500 hover:bg-orange-50"
+              >
                 See Pricing
               </Button>
             </a>
           </div>
           {/* Trust Bar */}
           <div className="mt-8 flex items-center gap-2 text-sm text-gray-500">
-            <Star className="h-5 w-5 text-orange-400" />
-            <span>Trusted by 1,000+ businesses</span>
+            <SparklesText className="inline-flex items-center gap-2 text-orange-500 font-semibold">
+              <Star className="h-5 w-5 text-orange-400 mr-1" />
+              Trusted by 1,000+ businesses
+            </SparklesText>
           </div>
         </div>
         {/* Stock Image */}
@@ -69,6 +86,9 @@ export default function HomePage() {
       {/* Features Section */}
       <section className="py-16 bg-white w-full">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <BoxReveal boxColor="#fb923c" duration={0.7}>
+            <h2 className="text-3xl font-extrabold text-center mb-12">Why Meraki?</h2>
+          </BoxReveal>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {/* Unlimited Invoices */}
             <div>
@@ -77,7 +97,9 @@ export default function HomePage() {
               </div>
               <div className="mt-5">
                 <h2 className="text-lg font-semibold text-gray-900">Unlimited Invoices</h2>
-                <p className="mt-2 text-base text-gray-500">Create and send unlimited professional invoices to your clients.</p>
+                <p className="mt-2 text-base text-gray-500">
+                  Create and send unlimited professional invoices to your clients.
+                </p>
               </div>
             </div>
             {/* Automated Reminders */}
@@ -87,7 +109,9 @@ export default function HomePage() {
               </div>
               <div className="mt-5">
                 <h2 className="text-lg font-semibold text-gray-900">Automated Reminders</h2>
-                <p className="mt-2 text-base text-gray-500">Send automatic payment reminders and follow-ups to clients.</p>
+                <p className="mt-2 text-base text-gray-500">
+                  Send automatic payment reminders and follow-ups to clients.
+                </p>
               </div>
             </div>
             {/* Real-Time Payment Tracking */}
@@ -97,7 +121,9 @@ export default function HomePage() {
               </div>
               <div className="mt-5">
                 <h2 className="text-lg font-semibold text-gray-900">Real-Time Payment Tracking</h2>
-                <p className="mt-2 text-base text-gray-500">Monitor invoice status and get notified when payments are received.</p>
+                <p className="mt-2 text-base text-gray-500">
+                  Monitor invoice status and get notified when payments are received.
+                </p>
               </div>
             </div>
             {/* Online Payments */}
@@ -107,7 +133,9 @@ export default function HomePage() {
               </div>
               <div className="mt-5">
                 <h2 className="text-lg font-semibold text-gray-900">Online Payments</h2>
-                <p className="mt-2 text-base text-gray-500">Accept payments online with integrated payment gateways.</p>
+                <p className="mt-2 text-base text-gray-500">
+                  Accept payments online with integrated payment gateways.
+                </p>
               </div>
             </div>
             {/* Financial Reports */}
@@ -117,7 +145,9 @@ export default function HomePage() {
               </div>
               <div className="mt-5">
                 <h2 className="text-lg font-semibold text-gray-900">Financial Reports</h2>
-                <p className="mt-2 text-base text-gray-500">Generate basic and advanced financial reports to analyze your business.</p>
+                <p className="mt-2 text-base text-gray-500">
+                  Generate basic and advanced financial reports to analyze your business.
+                </p>
               </div>
             </div>
             {/* Client Management */}
@@ -127,7 +157,9 @@ export default function HomePage() {
               </div>
               <div className="mt-5">
                 <h2 className="text-lg font-semibold text-gray-900">Client Management</h2>
-                <p className="mt-2 text-base text-gray-500">Manage all your clients in one place, with unlimited clients on Pro.</p>
+                <p className="mt-2 text-base text-gray-500">
+                  Manage all your clients in one place, with unlimited clients on Pro.
+                </p>
               </div>
             </div>
             {/* Custom Invoice Templates */}
@@ -137,7 +169,9 @@ export default function HomePage() {
               </div>
               <div className="mt-5">
                 <h2 className="text-lg font-semibold text-gray-900">Custom Invoice Templates</h2>
-                <p className="mt-2 text-base text-gray-500">Personalize your invoices with custom templates (Pro).</p>
+                <p className="mt-2 text-base text-gray-500">
+                  Personalize your invoices with custom templates (Pro).
+                </p>
               </div>
             </div>
             {/* Team Management */}
@@ -147,7 +181,9 @@ export default function HomePage() {
               </div>
               <div className="mt-5">
                 <h2 className="text-lg font-semibold text-gray-900">Team Management</h2>
-                <p className="mt-2 text-base text-gray-500">Invite, remove, and manage team members with roles and permissions.</p>
+                <p className="mt-2 text-base text-gray-500">
+                  Invite, remove, and manage team members with roles and permissions.
+                </p>
               </div>
             </div>
             {/* Expense Tracking */}
@@ -157,7 +193,9 @@ export default function HomePage() {
               </div>
               <div className="mt-5">
                 <h2 className="text-lg font-semibold text-gray-900">Expense Tracking</h2>
-                <p className="mt-2 text-base text-gray-500">Track and categorize business expenses for better financial control.</p>
+                <p className="mt-2 text-base text-gray-500">
+                  Track and categorize business expenses for better financial control.
+                </p>
               </div>
             </div>
             {/* Time Tracking */}
@@ -167,7 +205,9 @@ export default function HomePage() {
               </div>
               <div className="mt-5">
                 <h2 className="text-lg font-semibold text-gray-900">Time Tracking</h2>
-                <p className="mt-2 text-base text-gray-500">Log billable hours and track time spent on projects.</p>
+                <p className="mt-2 text-base text-gray-500">
+                  Log billable hours and track time spent on projects.
+                </p>
               </div>
             </div>
             {/* Security Settings */}
@@ -177,7 +217,9 @@ export default function HomePage() {
               </div>
               <div className="mt-5">
                 <h2 className="text-lg font-semibold text-gray-900">Security Settings</h2>
-                <p className="mt-2 text-base text-gray-500">Manage your account security, change password, and delete account securely.</p>
+                <p className="mt-2 text-base text-gray-500">
+                  Manage your account security, change password, and delete account securely.
+                </p>
               </div>
             </div>
             {/* Activity Log */}
@@ -187,7 +229,9 @@ export default function HomePage() {
               </div>
               <div className="mt-5">
                 <h2 className="text-lg font-semibold text-gray-900">Activity Log</h2>
-                <p className="mt-2 text-base text-gray-500">View a detailed audit trail of all important account and team actions.</p>
+                <p className="mt-2 text-base text-gray-500">
+                  View a detailed audit trail of all important account and team actions.
+                </p>
               </div>
             </div>
             {/* Priority Support */}
@@ -197,7 +241,9 @@ export default function HomePage() {
               </div>
               <div className="mt-5">
                 <h2 className="text-lg font-semibold text-gray-900">Priority Support</h2>
-                <p className="mt-2 text-base text-gray-500">Get fast, dedicated support with the Pro plan.</p>
+                <p className="mt-2 text-base text-gray-500">
+                  Get fast, dedicated support with the Pro plan.
+                </p>
               </div>
             </div>
             {/* Subscription Management */}
@@ -207,7 +253,9 @@ export default function HomePage() {
               </div>
               <div className="mt-5">
                 <h2 className="text-lg font-semibold text-gray-900">Subscription Management</h2>
-                <p className="mt-2 text-base text-gray-500">Easily manage your subscription and billing from your dashboard.</p>
+                <p className="mt-2 text-base text-gray-500">
+                  Easily manage your subscription and billing from your dashboard.
+                </p>
               </div>
             </div>
             {/* Dashboard Analytics */}
@@ -217,7 +265,9 @@ export default function HomePage() {
               </div>
               <div className="mt-5">
                 <h2 className="text-lg font-semibold text-gray-900">Dashboard Analytics</h2>
-                <p className="mt-2 text-base text-gray-500">Visualize revenue, outstanding payments, top clients, and AI-powered insights.</p>
+                <p className="mt-2 text-base text-gray-500">
+                  Visualize revenue, outstanding payments, top clients, and AI-powered insights.
+                </p>
               </div>
             </div>
           </div>
@@ -229,7 +279,10 @@ export default function HomePage() {
         <div className="max-w-4xl mx-auto px-4">
           <div className="grid md:grid-cols-2 gap-8">
             {testimonials.map((t, i) => (
-              <div key={i} className="rounded-2xl bg-white shadow-lg p-8 flex flex-col items-center text-center border border-orange-100">
+              <div
+                key={i}
+                className="rounded-2xl bg-white shadow-lg p-8 flex flex-col items-center text-center border border-orange-100"
+              >
                 <div className="mb-4">{t.avatar}</div>
                 <blockquote className="text-lg italic text-gray-700">{t.quote}</blockquote>
                 <div className="mt-4 font-semibold text-orange-600">{t.name}</div>
@@ -244,11 +297,20 @@ export default function HomePage() {
       <section className="py-16 bg-gradient-to-r from-orange-500 via-orange-400 to-orange-600 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-8">
           <div>
-            <h2 className="text-3xl font-bold sm:text-4xl mb-2">Ready to streamline your billing?</h2>
-            <p className="max-w-2xl text-lg opacity-90">Meraki Solution provides everything you need to manage invoices, payments, and clients efficiently. Focus on growing your business while we handle the billing.</p>
+            <h2 className="text-3xl font-bold sm:text-4xl mb-2">
+              Ready to streamline your billing?
+            </h2>
+            <p className="max-w-2xl text-lg opacity-90">
+              Meraki Solution provides everything you need to manage invoices, payments, and clients
+              efficiently. Focus on growing your business while we handle the billing.
+            </p>
           </div>
           <a href="/sign-up">
-            <Button size="lg" variant="default" className="text-lg rounded-full bg-white text-orange-600 hover:bg-orange-50 shadow-lg">
+            <Button
+              size="lg"
+              variant="default"
+              className="text-lg rounded-full bg-white text-orange-600 hover:bg-orange-50 shadow-lg"
+            >
               Try Meraki Solution
               <ArrowRight className="ml-3 h-6 w-6" />
             </Button>

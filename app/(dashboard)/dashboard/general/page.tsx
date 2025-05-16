@@ -6,11 +6,12 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
-import { Loader2 } from 'lucide-react';
+import { Loader2, Info, CheckCircle, AlertCircle } from 'lucide-react';
 import { updateAccount } from '@/app/(login)/actions';
 import { User } from '@/lib/db/schema';
 import useSWR from 'swr';
 import { Suspense } from 'react';
+import { AuroraText } from '@/components/magicui/aurora-text';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -26,11 +27,7 @@ type AccountFormProps = {
   emailValue?: string;
 };
 
-function AccountForm({
-  state,
-  nameValue = '',
-  emailValue = ''
-}: AccountFormProps) {
+function AccountForm({ state, nameValue = '', emailValue = '' }: AccountFormProps) {
   return (
     <>
       <div>
@@ -64,28 +61,27 @@ function AccountForm({
 
 function AccountFormWithData({ state }: { state: ActionState }) {
   const { data: user } = useSWR<User>('/api/user', fetcher);
-  return (
-    <AccountForm
-      state={state}
-      nameValue={user?.name ?? ''}
-      emailValue={user?.email ?? ''}
-    />
-  );
+  return <AccountForm state={state} nameValue={user?.name ?? ''} emailValue={user?.email ?? ''} />;
 }
 
 export default function GeneralPage() {
-  const [state, formAction, isPending] = useActionState<ActionState, FormData>(
-    updateAccount,
-    {}
-  );
+  const [state, formAction, isPending] = useActionState<ActionState, FormData>(updateAccount, {});
 
   return (
     <section className="flex-1 p-4 lg:p-8">
-      <h1 className="text-lg lg:text-2xl font-medium text-gray-900 mb-6">
-        General Settings
+      <h1 className="text-4xl font-extrabold mb-8">
+        <AuroraText>General Settings</AuroraText>
       </h1>
-
-      <Card>
+      <div className="mb-8 bg-orange-50 rounded-xl p-6 shadow flex items-center gap-4">
+        <Info className="w-8 h-8 text-orange-400 flex-shrink-0" />
+        <div>
+          <div className="text-lg font-semibold text-orange-700 mb-1">Update Your Account Information</div>
+          <div className="text-gray-700">
+            Keep your name and email up to date for a personalized experience and important notifications. Changes here affect your login and account communications.
+          </div>
+        </div>
+      </div>
+      <Card className="relative overflow-hidden">
         <CardHeader>
           <CardTitle>Account Information</CardTitle>
         </CardHeader>
@@ -95,14 +91,20 @@ export default function GeneralPage() {
               <AccountFormWithData state={state} />
             </Suspense>
             {state.error && (
-              <p className="text-red-500 text-sm">{state.error}</p>
+              <div className="flex items-center gap-2 text-red-500 text-sm">
+                <AlertCircle className="w-4 h-4" />
+                {state.error}
+              </div>
             )}
             {state.success && (
-              <p className="text-green-500 text-sm">{state.success}</p>
+              <div className="flex items-center gap-2 text-green-600 text-sm">
+                <CheckCircle className="w-4 h-4" />
+                {state.success}
+              </div>
             )}
             <Button
               type="submit"
-              className="bg-orange-500 hover:bg-orange-600 text-white"
+              className="btn-meraki px-6 py-2 rounded-full text-lg font-semibold shadow-md"
               disabled={isPending}
             >
               {isPending ? (
@@ -117,6 +119,10 @@ export default function GeneralPage() {
           </form>
         </CardContent>
       </Card>
+      <div className="mt-10 text-center text-gray-500 text-sm">
+        Need help updating your account or have questions?{' '}
+        <a href="mailto:support@meraki.com" className="text-orange-500 hover:underline">Contact Support</a>
+      </div>
     </section>
   );
 }

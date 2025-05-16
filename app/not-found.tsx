@@ -1,28 +1,20 @@
 import React from 'react';
 import Link from 'next/link';
 import { CircleIcon } from 'lucide-react';
+import { SparklesText } from '@/components/magicui/sparkles-text';
+import { AuroraText } from '@/components/magicui/aurora-text';
 
 export default function NotFound() {
   return (
-    <div className="flex items-center justify-center min-h-[100dvh]">
-      <div className="max-w-md space-y-8 p-4 text-center">
-        <div className="flex justify-center">
-          <CircleIcon className="size-12 text-orange-500" />
-        </div>
-        <h1 className="text-4xl font-bold text-gray-900 tracking-tight">
-          Page Not Found
-        </h1>
-        <p className="text-base text-gray-500">
-          The page you are looking for might have been removed, had its name
-          changed, or is temporarily unavailable.
-        </p>
-        <Link
-          href="/"
-          className="max-w-48 mx-auto flex justify-center py-2 px-4 border border-gray-300 rounded-full shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
-        >
-          Back to Home
-        </Link>
-      </div>
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-orange-50 via-white to-orange-100 px-4">
+      <SparklesText className="text-6xl font-extrabold mb-4">404</SparklesText>
+      <AuroraText className="text-lg mb-8">Sorry, we couldn't find that page.</AuroraText>
+      <Link
+        href="/"
+        className="btn-meraki px-6 py-2 rounded-full text-lg font-semibold shadow-md bg-gradient-to-r from-orange-400 via-orange-500 to-pink-400 text-white hover:from-orange-500 hover:to-pink-500 transition-all"
+      >
+        Back to Home
+      </Link>
     </div>
   );
 }

@@ -18,10 +18,7 @@ export async function POST(request: NextRequest) {
     event = stripe.webhooks.constructEvent(payload, signature, webhookSecret);
   } catch (err) {
     console.error('Webhook signature verification failed.', err);
-    return NextResponse.json(
-      { error: 'Webhook signature verification failed.' },
-      { status: 400 }
-    );
+    return NextResponse.json({ error: 'Webhook signature verification failed.' }, { status: 400 });
   }
 
   switch (event.type) {
@@ -34,7 +31,10 @@ export async function POST(request: NextRequest) {
       const session = event.data.object as Stripe.Checkout.Session;
       const invoiceId = session.metadata?.invoiceId;
       if (invoiceId) {
-        await db.update(invoices).set({ status: 'paid', paidAt: new Date() }).where(eq(invoices.id, Number(invoiceId)));
+        await db
+          .update(invoices)
+          .set({ status: 'paid', paidAt: new Date() })
+          .where(eq(invoices.id, Number(invoiceId)));
       }
       break;
     }

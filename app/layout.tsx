@@ -7,20 +7,17 @@ import { SWRConfig } from 'swr';
 
 export const metadata: Metadata = {
   title: 'Meraki Solution',
-  description: 'A comprehensive invoicing platform to streamline billing, automate reminders, and manage payments for your business.'
+  description:
+    'A comprehensive invoicing platform to streamline billing, automate reminders, and manage payments for your business.',
 };
 
 export const viewport: Viewport = {
-  maximumScale: 1
+  maximumScale: 1,
 };
 
 const manrope = Manrope({ subsets: ['latin'] });
 
-export default function RootLayout({
-  children
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html
       lang="en"
@@ -33,8 +30,8 @@ export default function RootLayout({
               // We do NOT await here
               // Only components that read this data will suspend
               '/api/user': getUser(),
-              '/api/team': getTeamForUser()
-            }
+              '/api/team': getTeamForUser(),
+            },
           }}
         >
           {children}

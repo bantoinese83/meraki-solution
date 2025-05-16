@@ -1,11 +1,4 @@
-import {
-  pgTable,
-  serial,
-  varchar,
-  text,
-  timestamp,
-  integer,
-} from 'drizzle-orm/pg-core';
+import { pgTable, serial, varchar, text, timestamp, integer } from 'drizzle-orm/pg-core';
 import { relations } from 'drizzle-orm';
 
 export const users = pgTable('users', {
@@ -80,7 +73,9 @@ export const clients = pgTable('clients', {
 
 export const invoices = pgTable('invoices', {
   id: serial('id').primaryKey(),
-  clientId: integer('client_id').notNull().references(() => clients.id),
+  clientId: integer('client_id')
+    .notNull()
+    .references(() => clients.id),
   issueDate: timestamp('issue_date').notNull().defaultNow(),
   dueDate: timestamp('due_date').notNull(),
   status: varchar('status', { length: 30 }).notNull(),
@@ -94,11 +89,15 @@ export const invoices = pgTable('invoices', {
   currency: varchar('currency', { length: 10 }).notNull().default('USD'),
   tax: integer('tax'),
   template: text('template'),
+  customFields: text('custom_fields'),
+  wireInstructions: text('wire_instructions'),
 });
 
 export const invoiceItems = pgTable('invoice_items', {
   id: serial('id').primaryKey(),
-  invoiceId: integer('invoice_id').notNull().references(() => invoices.id),
+  invoiceId: integer('invoice_id')
+    .notNull()
+    .references(() => invoices.id),
   description: varchar('description', { length: 255 }).notNull(),
   quantity: integer('quantity').notNull(),
   unitPrice: integer('unit_price').notNull(), // store as cents
@@ -107,8 +106,12 @@ export const invoiceItems = pgTable('invoice_items', {
 
 export const expenses = pgTable('expenses', {
   id: serial('id').primaryKey(),
-  userId: integer('user_id').notNull().references(() => users.id),
-  teamId: integer('team_id').notNull().references(() => teams.id),
+  userId: integer('user_id')
+    .notNull()
+    .references(() => users.id),
+  teamId: integer('team_id')
+    .notNull()
+    .references(() => teams.id),
   description: varchar('description', { length: 255 }).notNull(),
   amount: integer('amount').notNull(),
   currency: varchar('currency', { length: 10 }).notNull().default('USD'),
@@ -118,12 +121,64 @@ export const expenses = pgTable('expenses', {
 
 export const timeEntries = pgTable('time_entries', {
   id: serial('id').primaryKey(),
-  userId: integer('user_id').notNull().references(() => users.id),
-  teamId: integer('team_id').notNull().references(() => teams.id),
+  userId: integer('user_id')
+    .notNull()
+    .references(() => users.id),
+  teamId: integer('team_id')
+    .notNull()
+    .references(() => teams.id),
   description: varchar('description', { length: 255 }),
   hours: integer('hours').notNull(),
   date: timestamp('date').notNull().defaultNow(),
   createdAt: timestamp('created_at').notNull().defaultNow(),
+});
+
+export const invoiceDocuments = pgTable('invoice_documents', {
+  id: serial('id').primaryKey(),
+  invoiceId: integer('invoice_id')
+    .notNull()
+    .references(() => invoices.id),
+  filename: varchar('filename', { length: 255 }).notNull(),
+  url: text('url').notNull(),
+  type: varchar('type', { length: 50 }),
+  uploadedAt: timestamp('uploaded_at').notNull().defaultNow(),
+});
+
+export const payments = pgTable('payments', {
+  id: serial('id').primaryKey(),
+  invoiceId: integer('invoice_id').notNull().references(() => invoices.id),
+  amount: integer('amount').notNull(), // cents
+  date: timestamp('date').notNull().defaultNow(),
+  method: varchar('method', { length: 30 }),
+  note: text('note'),
+});
+
+export const paymentPlans = pgTable('payment_plans', {
+  id: serial('id').primaryKey(),
+  invoiceId: integer('invoice_id').notNull().references(() => invoices.id),
+  dueDate: timestamp('due_date').notNull(),
+  amount: integer('amount').notNull(), // cents
+  status: varchar('status', { length: 20 }).notNull().default('pending'), // pending, paid, overdue
+});
+
+export const paymentPlanLogs = pgTable('payment_plan_logs', {
+  id: serial('id').primaryKey(),
+  planId: integer('plan_id').notNull().references(() => paymentPlans.id),
+  userId: integer('user_id').notNull().references(() => users.id),
+  action: varchar('action', { length: 20 }).notNull(), // add, edit, delete
+  timestamp: timestamp('timestamp').notNull().defaultNow(),
+  before: text('before'), // JSON string
+  after: text('after'), // JSON string
+});
+
+export const invoiceTemplates = pgTable('invoice_templates', {
+  id: serial('id').primaryKey(),
+  name: varchar('name', { length: 100 }).notNull(),
+  userId: integer('user_id').notNull().references(() => users.id),
+  teamId: integer('team_id').references(() => teams.id),
+  templateJson: text('template_json').notNull(),
+  createdAt: timestamp('created_at').notNull().defaultNow(),
+  updatedAt: timestamp('updated_at').notNull().defaultNow(),
 });
 
 export const teamsRelations = relations(teams, ({ many }) => ({
@@ -189,6 +244,13 @@ export const invoiceItemsRelations = relations(invoiceItems, ({ one }) => ({
   }),
 }));
 
+export const invoiceDocumentsRelations = relations(invoiceDocuments, ({ one }) => ({
+  invoice: one(invoices, {
+    fields: [invoiceDocuments.invoiceId],
+    references: [invoices.id],
+  }),
+}));
+
 export type User = typeof users.$inferSelect;
 export type NewUser = typeof users.$inferInsert;
 export type Team = typeof teams.$inferSelect;
@@ -210,6 +272,10 @@ export type Invoice = typeof invoices.$inferSelect;
 export type NewInvoice = typeof invoices.$inferInsert;
 export type InvoiceItem = typeof invoiceItems.$inferSelect;
 export type NewInvoiceItem = typeof invoiceItems.$inferInsert;
+export type InvoiceDocument = typeof invoiceDocuments.$inferSelect;
+export type NewInvoiceDocument = typeof invoiceDocuments.$inferInsert;
+export type InvoiceTemplate = typeof invoiceTemplates.$inferSelect;
+export type NewInvoiceTemplate = typeof invoiceTemplates.$inferInsert;
 
 export enum ActivityType {
   SIGN_UP = 'SIGN_UP',
