@@ -51,11 +51,12 @@ export async function GET() {
   `;
 
   console.log('GEMINI_API_KEY:', process.env.GEMINI_API_KEY);
-  // Hardcoded Gemini API key for testing
-  const apiKey = 'AIzaSyCbw4QGCarS1B3rxWRsUMyKqyO2Xi3aWGY';
+  // Use Gemini API key from environment variable only
+  const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) {
     return NextResponse.json({ error: 'Missing GEMINI_API_KEY' }, { status: 500 });
   }
+  // (Developers: Set GEMINI_API_KEY in your environment, never hardcode it in code)
   const ai = new GoogleGenerativeAI(apiKey);
 
   
