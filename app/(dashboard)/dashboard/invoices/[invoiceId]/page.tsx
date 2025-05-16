@@ -47,7 +47,9 @@ export default function InvoiceDetailPage() {
   // Add missing handlePayment function
   const handlePayment = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!amount) return;
+    if (!amount) {
+      return;
+    }
     setLoading(true);
     // Simulate payment addition (replace with API call as needed)
     setPayments(prev => [
