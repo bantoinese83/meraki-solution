@@ -27,7 +27,7 @@ function DraggablePaletteItem({ item }: { item: any }) {
     collect: (monitor) => ({ isDragging: monitor.isDragging() }),
   }));
   return (
-    <div ref={(node) => drag(node)}>
+    <div ref={(node) => { drag(node); }}>
       <Card className={`p-3 cursor-move hover:bg-orange-50 ${isDragging ? 'opacity-50' : ''}`}>{item.label}</Card>
     </div>
   );
