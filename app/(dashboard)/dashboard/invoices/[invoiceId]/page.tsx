@@ -3,15 +3,19 @@ import React, { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { useParams, useRouter } from 'next/navigation';
 
+// Define types for item and invoice, or use 'any' if not available
+type PaletteItem = any; // Replace 'any' with a more specific type if available
+type Invoice = any; // Replace 'any' with a more specific type if available
+
 const PALETTE_MAP = {
-  logo: (item, invoice) => item.logoUrl ? <img src={item.logoUrl} alt="Logo" className="max-h-16 mb-2" /> : null,
-  companyInfo: (item, invoice) => <div className="mb-2 font-semibold">Your Company Name<br />123 Main St<br />info@company.com</div>,
-  clientInfo: (item, invoice) => <div className="mb-2">Client: {invoice.clientName || invoice.clientId}</div>,
-  lineItems: (item, invoice) => (
+  logo: (item: PaletteItem, invoice: Invoice) => item.logoUrl ? <img src={item.logoUrl} alt="Logo" className="max-h-16 mb-2" /> : null,
+  companyInfo: (item: PaletteItem, invoice: Invoice) => <div className="mb-2 font-semibold">Your Company Name<br />123 Main St<br />info@company.com</div>,
+  clientInfo: (item: PaletteItem, invoice: Invoice) => <div className="mb-2">Client: {invoice.clientName || invoice.clientId}</div>,
+  lineItems: (item: PaletteItem, invoice: Invoice) => (
     <table className="min-w-full text-sm mb-2">
       <thead><tr><th>Description</th><th>Qty</th><th>Unit Price</th><th>Total</th></tr></thead>
       <tbody>
-        {(invoice.items || []).map((li, idx) => (
+        {(invoice.items || []).map((li: any, idx: number) => (
           <tr key={idx}>
             <td>{li.description}</td>
             <td>{li.quantity}</td>
@@ -22,9 +26,9 @@ const PALETTE_MAP = {
       </tbody>
     </table>
   ),
-  totals: (item, invoice) => <div className="font-bold text-lg">Total: ${(invoice.total / 100).toFixed(2)}</div>,
-  notes: (item, invoice) => invoice.notes ? <div className="mt-2 italic">Notes: {invoice.notes}</div> : null,
-  customText: (item, invoice) => <div style={{ fontSize: item.fontSize || 16 }}>{item.text || '[Custom Text]'}</div>,
+  totals: (item: PaletteItem, invoice: Invoice) => <div className="font-bold text-lg">Total: ${(invoice.total / 100).toFixed(2)}</div>,
+  notes: (item: PaletteItem, invoice: Invoice) => invoice.notes ? <div className="mt-2 italic">Notes: {invoice.notes}</div> : null,
+  customText: (item: PaletteItem, invoice: Invoice) => <div style={{ fontSize: item.fontSize || 16 }}>{item.text || '[Custom Text]'}</div>,
 };
 
 export default function InvoiceDetailPage() {
